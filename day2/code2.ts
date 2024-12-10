@@ -23,11 +23,13 @@ class Report {
   }
 
   isSafe(): boolean {
-    const report = [...this.report];
+    const report: number[] = [...this.report];
     // check all cases
     for (let i = 0; i < this.length; i++) {
-      const removed = report.splice(i, 1); // remove element from `report` array
-      const diffs = report.slice(1).map((num, idx) => num - report[idx]);
+      const removed: number[] = report.splice(i, 1); // remove element from `report` array
+      const diffs: number[] = report
+        .slice(1)
+        .map((num, idx) => num - report[idx]);
       if (this.#isInOrder(diffs) && this.#hasSafeDiffs(diffs)) return true; // return true if it's safe
       report.splice(i, 0, removed[0]); // add the removed element back to the `report` array
     }
@@ -37,7 +39,7 @@ class Report {
 
 function main() {
   let safeReports: number = 0;
-  const lines = Deno.readTextFileSync("input.txt").split("\n");
+  const lines: string[] = Deno.readTextFileSync("input.txt").split("\n");
   for (const line of lines) {
     const report: Report = new Report(line.split(" ").map((x) => parseInt(x)));
     if (report.isSafe()) safeReports++;
